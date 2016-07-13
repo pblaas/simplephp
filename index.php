@@ -2,7 +2,7 @@
 echo "FQDN: ". $_SERVER['SERVER_NAME']."<br />";
 echo "Container: ". $_SERVER['SERVER_ADDR']."<br />";
 echo "UniqueID: ". $_SERVER['UNIQUE_ID']."<br />";
-echo "Welcome in Rotterdam";
+echo "Welcome to the future.";
 ?>
 
 
