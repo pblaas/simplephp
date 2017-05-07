@@ -1,14 +1,9 @@
-node('agent'){
-  def apiURL = 'https://192.168.2.22:8443'
-  def namespace = 'development'
-
-  stage 'Build'
-  def buildConfig = 'simplephp'
-  step new com.openshift.jenkins.plugins.pipeline.OpenShiftBuilder(apiURL, buildConfig, namespace, '', 'false', '', '', 'false', '')
-  echo 'build'
-
-  stage 'Deploy'
-  def deploymentConfig = 'simplephp'
-  step new com.openshift.jenkins.plugins.pipeline.OpenShiftDeployer(apiURL, deploymentConfig, namespace, '', '')
-  echo 'deployed'
-}
+node {
+    git 'https://github.com/pblaas/simplephp.git'
+    if (!fileExists ('Dockerfile')) {
+      writeFile file: 'Dockerfile', text: 'FROM pblaas/nginx-alpine'
+    }
+    kubernetes.image().withName("simplephp").build().fromPath(".")
+    #kubernetes.image().withName("simplephp").tag().inRepository("172.30.101.121:5000/default/simplephp").withTag("1.0")
+    #kubernetes.image().withName("172.30.101.121:5000/default/example").push().withTag("1.0").toRegistry()
+} 
