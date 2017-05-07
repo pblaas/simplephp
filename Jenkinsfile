@@ -6,6 +6,6 @@ node {
 
     stage('Build'){
       writeFile file: 'Dockerfile', text: 'FROM php:7.0-apache'
-      kubernetes.image().withName("simplephp").build().fromPath(".")
+      def img = docker.build("pblaas/simpledemo:${env.BUILD_TAG}")
     }
 } 
